@@ -1,0 +1,16 @@
+# ===== Backend (Spring Boot / Maven) =====
+backend/target/
+backend/*.log
+*.log
+
+# ===== Frontend (Angular) =====
+frontend/node_modules/
+frontend/dist/
+
+# ===== IDE Files =====
+.idea/
+.vscode/
+
+# ===== OS Files =====
+.DS_Store
+Thumbs.db
