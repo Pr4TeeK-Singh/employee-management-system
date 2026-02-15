@@ -1,16 +1,9 @@
-# ===== Backend (Spring Boot / Maven) =====
+# Angular
+employee-ui/node_modules/
+employee-ui/dist/
+
+# Spring Boot
 backend/target/
-backend/*.log
+
+# Logs
 *.log
-
-# ===== Frontend (Angular) =====
-frontend/node_modules/
-frontend/dist/
-
-# ===== IDE Files =====
-.idea/
-.vscode/
-
-# ===== OS Files =====
-.DS_Store
-Thumbs.db

@@ -1,0 +1,184 @@
+<div class="container mt-4">
+
+  <h3>Add Employee</h3>
+
+  <form #empForm="ngForm" (ngSubmit)="saveEmployee(empForm)">
+    <div class="row g-3">
+
+      <div class="col-md-4">
+        <label>Name</label>
+        <input class="form-control"
+              name="name"
+              [(ngModel)]="employee.name"
+              required minlength="3"
+              #name="ngModel">
+        <small class="text-danger" *ngIf="name.invalid && name.touched">
+          Name is required (min 3 chars)
+        </small>
+      </div>
+      <div class="col-md-4">
+        <label>Department</label>
+        <select class="form-select"
+            name="department"
+            [(ngModel)]="employee.department"
+            required
+            #dept="ngModel">
+
+          <option value="">Select Department</option>
+          <option *ngFor="let d of departments" [value]="d.name">
+            {{ d.name }}
+          </option>
+        </select>
+        <small class="text-danger" *ngIf="dept.invalid && dept.touched">
+          Department is required
+          </small>
+        </div>
+
+      <div class="col-md-4">
+        <label>DOB</label>
+        <input type="date" class="form-control"
+              name="dob"
+              [(ngModel)]="employee.dob"
+              required>
+      </div>
+
+      <div class="col-md-4">
+        <label>State</label>
+        <select class="form-select"
+                name="state"
+                [(ngModel)]="employee.state"
+                (change)="onStateChange()"
+                required>
+          <option value="">Select</option>
+          <option *ngFor="let s of states">{{ s }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label>City</label>
+        <select class="form-select"
+                name="city"
+                [(ngModel)]="employee.city"
+                required>
+          <option value="">Select</option>
+          <option *ngFor="let c of cities[employee.state] || []">{{ c }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label>Mobile</label>
+        <input class="form-control"
+              name="mobile"
+              [(ngModel)]="employee.mobileNo"
+              required
+              pattern="^[0-9]{10}$"
+              #mobile="ngModel">
+        <small class="text-danger" *ngIf="mobile.invalid && mobile.touched">
+          Enter 10-digit mobile number
+        </small>
+      </div>
+
+    </div>
+
+    <button class="btn btn-primary mt-3"
+            [disabled]="empForm.invalid">
+      Save
+    </button>
+  </form>
+
+  <hr>
+
+  <h3>Employee List</h3>
+
+  <table class="table table-bordered table-sm">
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>Dept</th><th>State</th><th>City</th><th>DOB</th><th>Mobile</th><th>Action</th>
+      </tr>
+    </thead>
+      <tbody>
+    <tr *ngFor="let emp of employees">
+      <td>{{ emp.id }}</td>
+      <td>{{ emp.name }}</td>
+      <td>{{ emp.department }}</td>
+      <td>{{ emp.state }}</td>
+      <td>{{ emp.city }}</td>
+      <td>{{ emp.dob }}</td>
+      <td>{{ emp.mobileNo }}</td>
+      <td>
+        <a href="#" (click)="openEdit(emp); $event.preventDefault()">Edit</a> |
+        <a href="#" class="text-danger"
+          (click)="confirmDelete(emp.id); $event.preventDefault()">Delete</a>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+
+</div>
+
+<div class="modal fade" id="editModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5>Edit Employee</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+  <label>ID</label>
+  <input class="form-control mb-2"
+        [(ngModel)]="editEmployee.id"
+        disabled>
+
+  <label>Name</label>
+  <input class="form-control mb-2"
+        [(ngModel)]="editEmployee.name">
+
+  <label>Department</label>
+        <select class="form-select"
+            name="department"
+            [(ngModel)]="editEmployee.department"
+            required
+            #dept="ngModel">
+          <option *ngFor="let d of departments" [value]="d.name">
+            {{ d.name }}
+          </option>
+        </select>
+  <label>DOB</label>
+  <input type="date"
+        class="form-control mb-2"
+        [(ngModel)]="editEmployee.dob">
+
+  <label>State</label>
+  <select class="form-select mb-2"
+          [(ngModel)]="editEmployee.state"
+          (change)="onEditStateChange()">
+    <option *ngFor="let s of states">{{ s }}</option>
+  </select>
+
+  <label>City</label>
+  <select class="form-select mb-2"
+          [(ngModel)]="editEmployee.city">
+    <option *ngFor="let c of cities[editEmployee.state] || []">
+      {{ c }}
+    </option>
+  </select>
+
+  <label>Mobile</label>
+  <input class="form-control"
+        [(ngModel)]="editEmployee.mobileNo">
+  <div class="modal-footer">
+        <button class="btn btn-secondary"
+                data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary"
+                (click)="updateEmployee()">
+          Update
+        </button>
+      </div>
+
+</div>
